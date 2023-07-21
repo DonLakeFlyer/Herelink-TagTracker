@@ -1,6 +1,6 @@
 #pragma once
 
-#include "QGCCorePlugin.h"
+#include "HerelinkCorePlugin.h"
 #include "QmlObjectListModel.h"
 #include "CustomOptions.h"
 #include "FactSystem.h"
@@ -18,7 +18,7 @@ class CustomSettings;
 
 Q_DECLARE_LOGGING_CATEGORY(CustomPluginLog)
 
-class CustomPlugin : public QGCCorePlugin
+class CustomPlugin : public HerelinkCorePlugin
 {
     Q_OBJECT
 
@@ -68,7 +68,6 @@ private slots:
     void _updateFlightMachineActive     (bool flightMachineActive);
     void _mavCommandResult              (int vehicleId, int component, int command, int result, bool noResponseFromVehicle);
     void _tunnelCommandAckFailed        (void);
-    void _activeVehicleChanged          (Vehicle* activeVehicle);
     void _ftpDownloadComplete           (const QString& file, const QString& errorMsg);
     void _ftpCommandError               (const QString& msg);
     void _controllerHeartbeatFailed     (void);
