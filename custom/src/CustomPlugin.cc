@@ -19,7 +19,7 @@ using namespace TunnelProtocol;
 QGC_LOGGING_CATEGORY(CustomPluginLog, "CustomPluginLog")
 
 CustomPlugin::CustomPlugin(QGCApplication *app, QGCToolbox* toolbox)
-    : QGCCorePlugin         (app, toolbox)
+    : HerelinkCorePlugin    (app, toolbox)
     , _vehicleStateIndex    (0)
     , _flightStateMachineActive  (false)
     , _vehicleFrequency     (0)
@@ -47,24 +47,14 @@ CustomPlugin::~CustomPlugin()
 
 void CustomPlugin::setToolbox(QGCToolbox* toolbox)
 {
-    QGCCorePlugin::setToolbox(toolbox);
+    HerelinkCorePlugin::setToolbox(toolbox);
+
     _customSettings = new CustomSettings(nullptr);
     _customOptions = new CustomOptions(this, nullptr);
-
-    connect(toolbox->multiVehicleManager(), &MultiVehicleManager::activeVehicleChanged, this, &CustomPlugin::_activeVehicleChanged);
 
     _tagInfoList.checkForTagFile();
 
     _csvClearPrevRotationLogs();
-}
-
-void CustomPlugin::_activeVehicleChanged(Vehicle* activeVehicle)
-{
-    // PX4 firmware streams DEBUG_FLOAT_ARRAY messages for some reason. This seems to be the only reliable way to get the message to
-    // flow through the Skynode UDP connection out a SiK radio. We need to up the rate so we don't lose messages.
-    // When connected over non-SiK radio this causes duplicates to be sent. So we need to remove those later.
-    disconnect(_toolbox->multiVehicleManager(), &MultiVehicleManager::activeVehicleChanged, this, &CustomPlugin::_activeVehicleChanged);
-    activeVehicle->sendCommand(MAV_COMP_ID_AUTOPILOT1, MAV_CMD_SET_MESSAGE_INTERVAL, true /* showError */, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY, 100000 /* disable */, 0 /* flight stack */);
 }
 
 QVariantList& CustomPlugin::settingsPages(void)
@@ -82,8 +72,12 @@ QVariantList& CustomPlugin::settingsPages(void)
     return _settingsPages;
 }
 
-bool CustomPlugin::mavlinkMessage(Vehicle*, LinkInterface*, mavlink_message_t message)
+bool CustomPlugin::mavlinkMessage(Vehicle* vehicle, LinkInterface* linkInterface, mavlink_message_t message)
 {
+    if (!HerelinkCorePlugin::mavlinkMessage(vehicle, linkInterface, message)) {
+        return false;
+    }
+
     if (message.msgid == MAVLINK_MSG_ID_TUNNEL) {
         mavlink_tunnel_t tunnel;
 
@@ -886,7 +880,7 @@ bool CustomPlugin::adjustSettingMetaData(const QString& settingsGroup, FactMetaD
         metaData.setRawDefaultValue(false);
     }
 
-    return true;
+    return HerelinkCorePlugin::adjustSettingMetaData(settingsGroup, metaData);
 }
 
 QString CustomPlugin::_tunnelCommandIdToText(uint32_t vhfCommandId)

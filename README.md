@@ -1,20 +1,33 @@
-# QGroundControl Ground Control Station
+# TagTracker - Herelink Version
 
-[![Releases](https://img.shields.io/github/release/mavlink/QGroundControl.svg)](https://github.com/mavlink/QGroundControl/releases)
+Turn off factory installed QGC Herelink version
+* Swipe down from top of screen to get device panel
+* Click the Gear icon to get into Android Settings
+* Selects Apps
+* Select QGrouncControl app
+* Select Home App
 
-*QGroundControl* (QGC) is an intuitive and powerful ground control station (GCS) for UAVs.
+To install onto Herelink:
+* Copy .apk from GitHub Actions artifact to sd card
+* Insert sd card into Herelink
+* Swipe down from top of screen to get device panel
+* At the bottom of the panel the sd card should be listed
+* Open it and then click the TagTracker.apk file to install
 
-The primary goal of QGC is ease of use for both first time and professional users.
-It provides full flight control and mission planning for any MAVLink enabled drone, and vehicle setup for both PX4 and ArduPilot powered UAVs. Instructions for *using QGroundControl* are provided in the [User Manual](https://docs.qgroundcontrol.com/en/) (you may not need them because the UI is very intuitive!)
+Check that Tag Tracker is the home app
+* Device panel
+* Gear icon
+* Apps
+* Tag Tracker
+* Home App
+* Home App
+* Select Tag Tracker
 
-All the code is open-source, so you can contribute and evolve it as you want.
-The [Developer Guide](https://dev.qgroundcontrol.com/en/) explains how to [build](https://dev.qgroundcontrol.com/en/getting_started/) and extend QGC.
-
-
-Key Links:
-* [Website](http://qgroundcontrol.com) (qgroundcontrol.com)
-* [User Manual](https://docs.qgroundcontrol.com/en/)
-* [Developer Guide](https://dev.qgroundcontrol.com/en/)
-* [Discussion/Support](https://docs.qgroundcontrol.com/en/Support/Support.html)
-* [Contributing](https://dev.qgroundcontrol.com/en/contribute/)
-* [License](https://github.com/mavlink/qgroundcontrol/blob/master/COPYING.md)
+Switch back to using factory QGC Herelink
+* Device panel
+* Gear icon
+* Apps
+* Factory QGC app
+* Home App
+* Home App
+* Select factory QGC
